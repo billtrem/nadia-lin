@@ -1,1 +1,1 @@
-web: gunicorn nadialin_site.wsgi --log-file -
+web: gunicorn nadialin_site.wsgi:application --bind 0.0.0.0:$PORT --workers 4

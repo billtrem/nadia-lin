@@ -11,7 +11,7 @@ load_dotenv(BASE_DIR / ".env")
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-default-key')
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['nadia-lin.com', 'www.nadia-lin.com', 'nadia-lin-production.up.railway.app', '127.0.0.1', 'localhost']
 
 # Allow live domain in production
 if not DEBUG:

@@ -5,6 +5,7 @@ from django.utils.text import slugify
 # -------------------------
 # Homepage Content
 # -------------------------
+
 class HomepageImage(models.Model):
     image = models.ImageField(upload_to='homepage_carousel/')
     caption = models.CharField(max_length=200, blank=True)
@@ -16,8 +17,9 @@ class HomepageImage(models.Model):
         verbose_name = "Homepage Carousel Image"
         verbose_name_plural = "Homepage Carousel Images"
 
+
 # -------------------------
-# Info Page (bio + portrait + optional contact)
+# Info Page
 # -------------------------
 
 class InfoPageContent(models.Model):
@@ -32,6 +34,7 @@ class InfoPageContent(models.Model):
         verbose_name = "Info Page Content"
         verbose_name_plural = "Info Page Content"
 
+
 # -------------------------
 # Blog
 # -------------------------
@@ -45,6 +48,8 @@ class BlogPost(models.Model):
 
     def __str__(self):
         return self.title
+
+
 # -------------------------
 # Exhibitions
 # -------------------------
@@ -65,6 +70,7 @@ class Exhibition(models.Model):
 
     def __str__(self):
         return f"{self.title} ({self.status})"
+
 
 # -------------------------
 # Shop / Products

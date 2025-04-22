@@ -1,17 +1,16 @@
 from pathlib import Path
 import os
 import dj_database_url
+from dotenv import load_dotenv
 
-# Build paths inside the project
+# Load environment variables from .env file
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / ".env")
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-9ng^7_j3)7g(h@#ujtiv=(3-fbst79d0jbze45i(t!bf8ss4*&')
-
-# Set debug mode from environment variable (default to True for local)
+# SECURITY
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-default-key')
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
-# Allow all during local dev; set in Railway ENV for production
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',') if not DEBUG else []
 
 # Application definition
@@ -23,7 +22,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'main',  # Your app
+    'main',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 MIDDLEWARE = [
@@ -56,10 +57,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'nadialin_site.wsgi.application'
 
-# Database configuration using dj-database-url
+# Database
 DATABASES = {
     'default': dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        conn_max_age=600,
+        ssl_require=not DEBUG,
     )
 }
 
@@ -71,17 +74,40 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# Internationalization
+# Localization
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Static & Media
+# Static & Media files
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'main' / 'static']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dqmh99cik',
+    'API_KEY': '669762426159988',
+    'API_SECRET': 'pZa7ZQbOf7Y_Lbs6OSqZ8Zf7lxg',
+}
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# Default PK
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Security settings
+if DEBUG:
+    SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+else:
+    SECURE_SSL_REDIRECT = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+
+X_FRAME_OPTIONS = 'DENY'

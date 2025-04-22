@@ -9,7 +9,7 @@
         <div class="carousel-slide">
             {% for image in images %}
                 <div class="slide" {% if forloop.first %}style="display: block;"{% else %}style="display: none;"{% endif %}>
-                    <img src="{{ image.image.url }}" alt="{{ image.caption }}">
+                    <img src="{{ image.image.url|add:'?w=1000&c_limit' }}" alt="{{ image.caption }}" loading="lazy">
                     {% if image.caption %}
                         <p class="caption">{{ image.caption }}</p>
                     {% endif %}

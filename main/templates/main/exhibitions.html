@@ -1,13 +1,18 @@
 {% extends 'main/base.html' %}
+
 {% block content %}
 <h2>Exhibitions</h2>
 {% for exhibition in exhibitions %}
-    <div>
-        <h3>{{ exhibition.title }}</h3>
-        <p><strong>{{ exhibition.date }}</strong> – {{ exhibition.location }}</p>
-        <p>{{ exhibition.description }}</p>
+    <div class="exhibition-preview">
+        <div class="exhibition-text">
+            <h3>{{ exhibition.title }}</h3>
+            <p><strong>{{ exhibition.date }}</strong> – {{ exhibition.location }}</p>
+            <p>{{ exhibition.description }}</p>
+        </div>
         {% if exhibition.image %}
-            <img src="{{ exhibition.image.url }}" alt="{{ exhibition.title }}" style="max-width:100%; height:auto;">
+            <div class="exhibition-image">
+                <img src="{{ exhibition.image.url|add:'?w=500&c_limit' }}" alt="{{ exhibition.title }}" loading="lazy">
+            </div>
         {% endif %}
         <hr>
     </div>

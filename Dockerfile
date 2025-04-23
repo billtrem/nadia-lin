@@ -19,12 +19,12 @@ COPY . /app/
 RUN python manage.py collectstatic --noinput
 
 # Run migrations and create superuser on start
-CMD bash -c "
+CMD ["bash", "-c", "\
 python manage.py migrate --noinput && \
 python manage.py collectstatic --noinput && \
-echo \"from django.contrib.auth.models import User; import os; \
-User.objects.filter(username=os.environ.get('DJANGO_SUPERUSER_USERNAME')).exists() or \
-User.objects.create_superuser(username=os.environ.get('DJANGO_SUPERUSER_USERNAME'), \
-email=os.environ.get('DJANGO_SUPERUSER_EMAIL'), \
-password=os.environ.get('DJANGO_SUPERUSER_PASSWORD'))\" | python manage.py shell && \
-gunicorn nadialin_site.wsgi:application --bind 0.0.0.0:8080 --workers 4"
+echo 'from django.contrib.auth.models import User; import os; \
+User.objects.filter(username=os.environ.get(\"DJANGO_SUPERUSER_USERNAME\")).exists() or \
+User.objects.create_superuser(username=os.environ.get(\"DJANGO_SUPERUSER_USERNAME\"), \
+email=os.environ.get(\"DJANGO_SUPERUSER_EMAIL\"), \
+password=os.environ.get(\"DJANGO_SUPERUSER_PASSWORD\"))' | python manage.py shell && \
+gunicorn nadialin_site.wsgi:application --bind 0.0.0.0:8080 --workers 4"]

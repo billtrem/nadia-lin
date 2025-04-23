@@ -18,7 +18,7 @@ COPY . /app/
 # Collect static files
 RUN python manage.py collectstatic --noinput
 
-# Run migrations and create superuser on start
+# Run migrations, create superuser, then start Gunicorn
 CMD ["bash", "-c", "\
 python manage.py migrate --noinput && \
 python manage.py collectstatic --noinput && \
@@ -27,4 +27,4 @@ User.objects.filter(username=os.environ.get(\"DJANGO_SUPERUSER_USERNAME\")).exis
 User.objects.create_superuser(username=os.environ.get(\"DJANGO_SUPERUSER_USERNAME\"), \
 email=os.environ.get(\"DJANGO_SUPERUSER_EMAIL\"), \
 password=os.environ.get(\"DJANGO_SUPERUSER_PASSWORD\"))' | python manage.py shell && \
-gunicorn nadialin_site.wsgi:application --bind 0.0.0.0:8080 --workers 4"]
+gunicorn nadialin_site.wsgi:application --bind 0.0.0.0:${PORT:-8000} --workers 4"]

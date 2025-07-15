@@ -1,6 +1,6 @@
 from pathlib import Path
 import os
-import dj_database_url  # Make sure this is imported for dj_database_url.config()
+import dj_database_url  # Make sure this is imported
 
 # ---------------------------
 # Load environment variables
@@ -88,13 +88,25 @@ WSGI_APPLICATION = 'nadialin_site.wsgi.application'
 # ---------------------------
 # Database
 # ---------------------------
-DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL'),
-        conn_max_age=600,
-        ssl_require=True  # Optional: depends on your DB setup
-    )
-}
+DATABASE_URL = os.environ.get('DATABASE_URL')
+
+if DATABASE_URL:
+    # Use PostgreSQL (production)
+    DATABASES = {
+        'default': dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=600,
+            ssl_require=True
+        )
+    }
+else:
+    # Use SQLite (development)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 # ---------------------------
 # Password Validation
@@ -126,10 +138,11 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Media via Cloudinary
 # ---------------------------
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get('CLOUD_NAME'),  # Make sure env var matches
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),  # Use this env var name exactly
     'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
     'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
 }
+
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 

@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+import dj_database_url  # Make sure this is imported for dj_database_url.config()
 
 # ---------------------------
 # Load environment variables
@@ -16,7 +17,6 @@ if os.environ.get('RAILWAY_ENV') != 'production':
 
 print("Cloudinary Cloud Name:", os.environ.get('CLOUDINARY_CLOUD_NAME'))
 print("Secret Key:", os.environ.get('SECRET_KEY'))
-
 
 # ---------------------------
 # Security
@@ -86,8 +86,9 @@ DATABASES = {
     'default': dj_database_url.config(
         default=os.environ.get('DATABASE_URL'),
         conn_max_age=600,
-        ssl_require=True  # Optional, depending on your DB setup
+        ssl_require=True  # Optional: depends on your database setup
     )
+}
 
 # ---------------------------
 # Password Validation
@@ -119,11 +120,10 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Media via Cloudinary
 # ---------------------------
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get('CLOUD_NAME'),        # Changed here
+    'CLOUD_NAME': os.environ.get('CLOUD_NAME'),  # Make sure environment variable matches
     'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
     'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
 }
-
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 

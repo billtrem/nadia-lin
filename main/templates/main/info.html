@@ -1,0 +1,39 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="info-page">
+    <div class="info-grid">
+        {% if info.portrait %}
+            <div class="info-image">
+                <img src="{{ info.portrait.url }}" alt="Nadia-Lin">
+            </div>
+        {% endif %}
+
+        <div class="info-text">
+            <h2>About Nadia-Lin</h2> <br><br>
+            <p>{{ info.bio|linebreaksbr }}</p>
+        </div>
+    </div>
+</div>
+
+<br>
+
+<div class="contact-box">
+    <h3>Contact</h3>
+    <form method="post">
+        {% csrf_token %}
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name"><br><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email"><br><br>
+
+        <label for="message">Message:</label><br>
+        <textarea id="message" name="message" rows="5"></textarea><br><br>
+
+        <button type="submit">Send</button>
+    </form>
+</div>
+
+{% endblock %}

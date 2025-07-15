@@ -1,0 +1,17 @@
+{% extends 'main/base.html' %}
+{% block content %}
+<h2>Shop</h2>
+{% for product in products %}
+    <div style="margin-bottom: 40px;">
+        <h3>{{ product.title }} – £{{ product.price }}</h3>
+        {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.title }}" style="max-width:300px; height:auto;">
+        {% endif %}
+        <p>{{ product.description }}</p>
+        <a href="{{ product.sumup_link }}" target="_blank">Buy Now</a>
+        <hr>
+    </div>
+{% empty %}
+    <p>No products available at the moment.</p>
+{% endfor %}
+{% endblock %}

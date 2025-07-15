@@ -1,0 +1,49 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="carousel-container">
+    <div class="carousel-wrapper">
+        <button class="carousel-btn prev">&#10094;</button>
+
+        <div class="carousel-slide">
+            {% for image in images %}
+                <div class="slide" {% if forloop.first %}style="display: block;"{% else %}style="display: none;"{% endif %}>
+                    <img src="{{ image.image.url }}" alt="{{ image.caption }}">
+                    {% if image.caption %}
+                        <p class="caption">{{ image.caption }}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <button class="carousel-btn next">&#10095;</button>
+    </div>
+</div>
+
+<script>
+    const slides = document.querySelectorAll('.slide');
+    const prevBtn = document.querySelector('.prev');
+    const nextBtn = document.querySelector('.next');
+    let index = 0;
+
+    function showSlide(i) {
+        slides.forEach((slide, idx) => {
+            slide.style.display = idx === i ? 'block' : 'none';
+        });
+    }
+
+    prevBtn.addEventListener('click', () => {
+        index = (index - 1 + slides.length) % slides.length;
+        showSlide(index);
+    });
+
+    nextBtn.addEventListener('click', () => {
+        index = (index + 1) % slides.length;
+        showSlide(index);
+    });
+
+    showSlide(index);
+</script>
+
+{% endblock %}

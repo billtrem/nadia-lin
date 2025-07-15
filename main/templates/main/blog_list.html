@@ -1,0 +1,32 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="blog-list">
+    <h2>Blog</h2>
+    <br>
+
+    {% for post in posts %}
+        <div class="blog-preview">
+            {% if post.preview_image %}
+                <div class="blog-preview-image">
+                    <img src="{{ post.preview_image.url }}" alt="{{ post.title }}">
+                </div>
+            {% else %}
+                <div class="blog-preview-image placeholder">
+                    <img src="{% static 'main/placeholder.jpg' %}" alt="No image available">
+                </div>
+            {% endif %}
+
+            <div class="blog-preview-text">
+                <h3><a href="{% url 'blog_detail' post.slug %}">{{ post.title }}</a></h3>
+                <p><em>{{ post.created_at|date:"F j, Y" }}</em></p>
+                <p>{{ post.body|truncatewords:30 }}</p>
+                <a class="read-more-button" href="{% url 'blog_detail' post.slug %}">Read more</a>
+            </div>
+        </div>
+    {% empty %}
+        <p>No blog posts available.</p>
+    {% endfor %}
+</section>
+{% endblock %}

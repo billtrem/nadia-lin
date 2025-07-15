@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.log
+
+# Django
+db.sqlite3
+media/
+staticfiles/
+
+# Virtual environment
+venv/
+env/
+
+# VSCode settings
+.vscode/
+
+# Environment variables
+.env
+
+# macOS + Windows junk
+.DS_Store
+Thumbs.db
+
+# Cloudinary credentials
+*.cloudinary
+
+# Byte-compiled cache
+*.pyc
+
+# Migration backups
+*.bak

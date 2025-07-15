@@ -1,0 +1,23 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<h2>Exhibitions</h2>
+{% for exhibition in exhibitions %}
+    <div class="exhibition-preview" style="max-width: 900px; margin: 40px auto; padding: 20px; border-bottom: 1px solid #ccc;">
+        {% if exhibition.image %}
+            <div class="exhibition-image" style="width: 100%; ; overflow: hidden; margin-bottom: 20px; display: flex; justify-content: center; align-items: center;">
+                <img src="{{ exhibition.image.url|add:'?w=500&c_limit' }}" alt="{{ exhibition.title }}" loading="lazy"
+                     style="max-width: 100%; max-height: 100%; object-fit: contain; display: block;">
+            </div>
+        {% endif %}
+        <div class="exhibition-text">
+            <h3>{{ exhibition.title }}</h3>
+            <p><strong>{{ exhibition.date }}</strong> – {{ exhibition.location }}</p>
+            <p>{{ exhibition.description }}</p>
+        </div>
+        <hr>
+    </div>
+{% empty %}
+    <p>No exhibitions to show.</p>
+{% endfor %}
+{% endblock %}

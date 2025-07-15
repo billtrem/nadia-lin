@@ -25,6 +25,12 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-...')
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'www.nadia-lin.com', 'nadia-lin.com']
 
+# Add your domain(s) here to allow CSRF validation for admin login etc
+CSRF_TRUSTED_ORIGINS = [
+    "https://nadia-lin.com",
+    "https://www.nadia-lin.com",
+]
+
 # ---------------------------
 # Installed Apps
 # ---------------------------
@@ -86,7 +92,7 @@ DATABASES = {
     'default': dj_database_url.config(
         default=os.environ.get('DATABASE_URL'),
         conn_max_age=600,
-        ssl_require=True  # Optional: depends on your database setup
+        ssl_require=True  # Optional: depends on your DB setup
     )
 }
 
@@ -120,7 +126,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Media via Cloudinary
 # ---------------------------
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get('CLOUD_NAME'),  # Make sure environment variable matches
+    'CLOUD_NAME': os.environ.get('CLOUD_NAME'),  # Make sure env var matches
     'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
     'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
 }

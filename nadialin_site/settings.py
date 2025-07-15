@@ -1,14 +1,22 @@
 from pathlib import Path
 import os
-from dotenv import load_dotenv
 
 # ---------------------------
 # Load environment variables
 # ---------------------------
 BASE_DIR = Path(__file__).resolve().parent.parent
-load_dotenv(dotenv_path=BASE_DIR / '.env')
+
+# Only load .env if not in production (Railway sets RAILWAY_ENV or use DEBUG)
+if os.environ.get('RAILWAY_ENV') != 'production':
+    try:
+        from dotenv import load_dotenv
+        load_dotenv(dotenv_path=BASE_DIR / '.env')
+    except ModuleNotFoundError:
+        pass
+
 print("Cloudinary Cloud Name:", os.environ.get('CLOUDINARY_CLOUD_NAME'))
 print("Secret Key:", os.environ.get('SECRET_KEY'))
+
 
 # ---------------------------
 # Security
